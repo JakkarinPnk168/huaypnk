@@ -1,0 +1,22 @@
+<app-header></app-header>
+
+<div class="page">
+  <ng-container *ngFor="let sec of sections">
+    <div class="section">
+      <div class="section-title">{{ sec.title }}</div>
+
+      <div class="btn-grid">
+        <button
+          class="btn-card"
+          *ngFor="let item of sec.items"
+          [ngClass]="item.color"
+          (click)="onClick(item)"
+        >
+          {{ item.label }}
+        </button>
+      </div>
+    </div>
+  </ng-container>
+</div>
+
+<app-footer></app-footer>

@@ -1,0 +1,46 @@
+.footer {
+  background: #ffffff;   
+  margin-top: 32px;
+
+  border-top: 2px solid #e5e7eb;
+}
+
+.footer-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 20px 16px 24px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-text {
+  text-align: center;
+  font-size: 20px;
+  line-height: 1.65;
+  color: #000000;
+}
+
+.footer-text--bold {
+  font-weight: 800;
+}
+
+.footer-handle {
+  font-weight: 800;
+  margin: 0 6px;
+}
+
+.footer-link {
+  color: #6d28d9;          // ม่วงแบบลิงก์
+  font-weight: 700;
+  text-decoration: underline;
+  word-break: break-all;
+}
+
+.footer-meta {
+  margin-top: 8px;
+  text-align: center;
+  font-size: 12px;
+  color: #6b7280;
+}

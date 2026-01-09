@@ -1,0 +1,35 @@
+<div class="page">
+  <!-- แสดงรูป -->
+  <img
+    class="poster-img"
+    *ngIf="generatedUrl"
+    [src]="generatedUrl"
+    (click)="openLink()"
+    alt="poster"
+  />
+
+  <!-- loading -->
+  <div *ngIf="isGenerating && !generatedUrl" class="status">กำลังสร้างรูป...</div>
+
+  <!-- debug error -->
+  <div *ngIf="debugError" class="status error">ERROR: {{ debugError }}</div>
+
+  <!-- ปุ่มควบคุม -->
+  <div class="action-group">
+    <div class="action-row">
+      <button class="btn btn--reroll" (click)="rerollAndReload()" [disabled]="isGenerating">
+        สุ่มผลอีกรอบ
+      </button>
+
+      <button
+        class="btn btn--download"
+        (click)="downloadPng()"
+        [disabled]="isGenerating || !generatedUrl"
+      >
+        ดาวน์โหลดรูป
+      </button>
+    </div>
+
+    <button class="btn btn--back" (click)="goHome()">กลับหน้าหลัก</button>
+  </div>
+</div>

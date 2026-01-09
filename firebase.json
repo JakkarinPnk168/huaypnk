@@ -1,0 +1,16 @@
+{
+  "hosting": [
+    {
+      "target": "huaypnk",
+      "public": "dist/huaydee/browser",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        { "source": "**", "destination": "/index.html" }
+      ]
+    }
+  ]
+}

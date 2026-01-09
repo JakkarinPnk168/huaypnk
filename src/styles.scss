@@ -1,0 +1,41 @@
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ✅ Niramit 400 */
+@font-face {
+  font-family: "Niramit";
+  src: url("/assets/fonts/Niramit-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ✅ Niramit 500 */
+@font-face {
+  font-family: "Niramit";
+  src: url("/assets/fonts/Niramit-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ✅ Niramit 600 */
+@font-face {
+  font-family: "Niramit";
+  src: url("/assets/fonts/Niramit-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ✅ Niramit 700 */
+@font-face {
+  font-family: "Niramit";
+  src: url("/assets/fonts/Niramit-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}

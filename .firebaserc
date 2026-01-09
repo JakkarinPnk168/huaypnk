@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "huaydee-91e7a"
+  },
+  "targets": {
+    "huaydee-91e7a": {
+      "hosting": {
+        "huaypnk": [
+          "huaypnk"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

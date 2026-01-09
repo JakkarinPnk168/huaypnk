@@ -1,0 +1,402 @@
+:host {
+  font-family: "Niramit", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+.page {
+  min-height: 100vh;
+  display: flex;             
+  flex-direction: column;   
+  align-items: center;       
+  padding: 12px 10px 18px;
+  background: #e9eef5;
+  gap: 12px;  
+}
+
+.poster {
+    
+  position: relative;
+  width: min(92vw, 720px);
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+  font-size: clamp(9px, 1.8vmin, 15px);
+  font-family: 'Lora' ;
+  overflow: hidden;
+}
+
+.poster-img {
+  width: min(92vw, 720px);  
+  aspect-ratio: 1 / 1;
+  display: block;
+  border-radius: 10px;
+  box-shadow: 0 12px 24px rgba(0,0,0,.25);
+  cursor: pointer;
+  user-select: none;
+}
+
+.date-pill {
+  position: absolute;
+  top: 9.5%;
+  left: 81%;
+  transform: translate(-50%, -50%);
+  font-size: 2em;
+  font-weight: 900;
+  color: #000000;
+  background: transparent;
+  text-shadow: 0 2px 6px rgba(0,0,0,.25);
+
+  text-shadow:
+  2px 2px 0 #ffffff,
+  6px 6px 12px rgba(0,0,0,.8);
+}
+
+//title
+.title {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3.2em; 
+  font-weight: 900;
+  color: #fff;
+  text-shadow: 0 4px 12px rgba(0,0,0,.7);
+
+  white-space: nowrap;
+  max-width: 90%;
+  text-align: center;
+
+  text-shadow:
+  3px 3px 0 #000000,
+  6px 6px 12px rgba(0,0,0,.8);
+
+}
+
+//วิ่งรูด
+.roll {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.roll-text {
+  font-size: 5em;   
+  font-weight: 900;
+  color: #ffffff;
+  background: transparent;
+  padding: 0;
+
+  text-shadow:
+  2px  2px  0 #000000,
+  2px  2px  6px rgba(0,0,0,.4);
+
+}
+
+//เลข 2 หลัก
+.two-grid {
+  position: absolute;
+  top: 74%;
+  left: 38%;
+  transform: translate(-50%, -50%);
+
+  width: 56%;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto auto; 
+  place-items: center;
+
+  gap: 1.6em 0.1em;
+}
+
+.two-grid .n {
+  font-size: 3.4em;
+  font-weight: 900;
+  color: #fff;
+
+  line-height: 1; 
+  padding: 0;      
+
+  text-shadow:
+    2px 2px 0 #000,
+    6px 6px 12px rgba(0,0,0,.8);
+}
+
+
+//เน้นอัด
+.focus {
+  position: absolute;
+  top: 73%;
+  left: 81%;
+  transform: translate(-50%, -50%);
+
+  width: 22%;
+  aspect-ratio: 1 / 1;
+  border-radius: 999px;
+
+  display: grid;
+  place-items: center;
+
+  font-size: 6.5em;  
+  font-weight: 900;
+  color: #ffffff;
+  text-shadow:
+  2px 2px 0 #000000,
+  6px 6px 12px rgba(0,0,0,.8);
+
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+//3 หลัก
+.three-bar {
+  position: absolute;
+  top: 90%;
+  left: 38%;
+  transform: translate(-50%, -50%);
+
+  width: 58%;
+  height: 10%;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  place-items: center;
+  gap: 0.9em;
+}
+
+.three-bar .t {
+  font-size: 2.6em;  
+  font-weight: 900;
+  color: #ffffff;
+  background: transparent;
+  padding: 0;
+  text-shadow:
+  2px  2px  0 #000000,
+  2px  2px  6px rgba(0,0,0,.4);
+
+}
+
+
+.btn-reroll {
+    width: min(320px, 92vw);
+  margin: 0;
+  padding: 12px 18px;
+  border: 0;
+  border-radius: 12px;
+  font-weight: 900;
+  cursor: pointer;
+  background: #ef4444;
+  color: #fff;
+  box-shadow: 0 8px 18px rgba(0,0,0,.25);
+
+
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+//respon ipad
+@media (max-width: 1024px) {
+  .page {
+    padding: 14px 10px;
+  }
+
+  .poster {
+    width: min(640px, 96%);
+  }
+
+  .date-pill { font-size: 1.8em; left: 80%; }
+  .title     { font-size: 3.0em; top: 39.5%; }
+  .roll-text { font-size: 4.6em; }
+  .two-grid  { left: 37.5%; gap: 0.22em 0.45em; }
+  .two-grid .n { font-size: 3.2em; }
+  .focus     { font-size: 6.0em; left: 80.5%; }
+  .three-bar { top: 89.5%; left: 37.5%; }
+}
+
+//respon mobile
+@media (max-width: 600px) {
+  .page {
+    padding: 10px 8px;
+    place-items: start center;
+  }
+
+  .poster {
+    width: 100%;
+  }
+
+
+  .date-pill { font-size: 1.55em; left: 79%; top: 10.5%; }
+  .title     { font-size: 2.55em; top: 39.5%; }
+  .roll      { top: 54.5%; }
+  .roll-text { font-size: 4.0em; }
+
+  .two-grid {
+    top: 73.5%;
+    left: 37%;
+    width: 58%;
+    height: 25%;
+    gap: 0.18em 0.38em; 
+  }
+
+  .two-grid .n { font-size: 2.85em; }
+
+  .focus {
+    top: 73%;
+    left: 81%;
+    width: 24%;          
+    font-size: 5.0em;  
+  }
+
+  .three-bar {
+    top: 89.5%;
+    left: 37%;
+    width: 60%;
+    gap: 0.65em;
+  }
+
+  .three-bar .t { font-size: 2.2em; }
+
+  .btn-reroll {
+    width: min(240px, 92%);
+    padding: 10px 14px;
+    margin-top: 10px;
+  }
+}
+
+
+/* ✅ ทำให้การแคปด้วย html2canvas เสถียร/คมขึ้น */
+.poster {
+  background: #000; /* กันขอบว่างกรณี img เป็น contain แล้วมีพื้นที่เหลือ */
+}
+
+
+.poster img {
+  object-fit: cover; /* 🔥 เปลี่ยนจาก contain -> cover เพื่อให้พิกัด overlay ตรงกรอบ */
+}
+
+.btn-download {
+  width: min(320px, 92vw);
+  padding: 12px 18px;
+  border: 0;
+  border-radius: 12px;
+  font-weight: 900;
+  cursor: pointer;
+  background: #2563eb;
+  color: #fff;
+  box-shadow: 0 8px 18px rgba(0,0,0,.25);
+
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.btn-download:disabled,
+.btn-reroll:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* =========================
+   Action buttons layout
+========================= */
+.action-group {
+  width: 100%;
+  max-width: 720px;
+  margin-top: 14px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+/* แถวบน: 2 ปุ่มข้างกัน */
+.action-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* ปุ่มพื้นฐาน (reuse) */
+.btn {
+  width: 100%;
+  padding: 12px 18px;
+  border: 0;
+  border-radius: 12px;
+  font-weight: 900;
+  font-size: 16px;
+  cursor: pointer;
+  color: #fff;
+
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.28);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* สีปุ่ม */
+.btn--reroll   { background: #ef4444; } /* แดง */
+.btn--download { background: #2563eb; } /* น้ำเงิน */
+.btn--back     { background: #6b7280; } /* เทา */
+
+/* ปุ่มล่าง (กลับหน้าหลัก) */
+.btn--back {
+  width: min(260px, 90%);
+}
+
+/* =========================
+   Mobile friendly
+========================= */
+@media (max-width: 360px) {
+  .action-row {
+    grid-template-columns: 1fr; /* เรียงลง */
+    gap: 10px;
+  }
+
+  .btn {
+    font-size: 15px;
+    padding: 11px 14px;
+  }
+}
+
+@media (orientation: portrait) {
+  .action-row{
+    grid-template-columns: 1fr 1fr; /* ✅ portrait ก็ยัง 2 ปุ่มข้างกัน */
+    gap: 12px;
+  }
+
+  /* กันข้อความปุ่มล้น */
+  .btn{
+    font-size: 15px;
+    padding: 12px 10px;
+    white-space: nowrap;
+  }
+}
+
+
+/* =========================
+   Status text
+========================= */
+.status {
+  font-weight: 700;
+  margin: 6px 0;
+  color: #333;
+}
+
+.status.error {
+  color: #dc2626;
+}
+
+
+

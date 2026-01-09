@@ -1,0 +1,151 @@
+.page {
+  min-height: 100vh;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== Top Bar ===== */
+.topbar {
+  background: #1e90ff;
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.topbar__title {
+  margin: 0;
+  text-align: center;
+  color: #000;
+  font-weight: 800;
+  font-size: clamp(20px, 2.2vw, 34px);
+  letter-spacing: 0.2px;
+}
+
+/* ===== Content ===== */
+.content {
+  width: min(1100px, 100%);
+  margin: 0 auto;
+  padding: 18px 12px 34px;
+}
+
+/* กล่องข้อความยาว */
+.desc {
+  border: 1px solid #111;
+  padding: 12px 14px;
+  font-size: clamp(14px, 1.7vw, 16px);
+  line-height: 1.6;
+  background: #fff;
+}
+
+.desc p {
+  margin: 0;
+}
+
+/* แถบเทา */
+.bar {
+  margin-top: 12px;
+  text-align: center;
+  font-weight: 700;
+  padding: 10px 12px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.bar--gray {
+  background: #d9d9d9;
+}
+
+.bar--light {
+  background: #efefef;
+  font-weight: 600;
+}
+
+/* ===== Contact row (ทำให้ id + link อยู่บรรทัดเดียว) ===== */
+.contact {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  /* ถ้าจอแคบมากให้ตัดบรรทัดได้แบบไม่เละ */
+  flex-wrap: wrap;
+  line-height: 1.4;
+}
+
+.contact__label {
+  white-space: nowrap;
+}
+
+.contact__id {
+  white-space: nowrap;
+}
+
+.contact__sep {
+  opacity: 0.7;
+  white-space: nowrap;
+}
+
+.contact__link {
+  color: #1a0dab;
+  text-decoration: underline;
+
+  /* ยาวได้ แต่ไม่ทำให้ layout พัง */
+  word-break: break-word;
+  overflow-wrap: anywhere;
+
+  /* ช่วยให้บนจอแคบ link ไม่ดันทุกอย่างกระจาย */
+  max-width: 100%;
+}
+
+/* ===== QR ===== */
+.qr {
+  margin-top: clamp(16px, 4vw, 28px);
+  display: flex;
+  justify-content: center;
+}
+
+/* ทำให้รูป "เล็กลงแบบดูดี" ทุกอุปกรณ์ */
+.qr__wrap {
+  /* ✅ โทรศัพท์: เล็กลง / iPad: กลาง ๆ / desktop: ไม่ใหญ่เกิน */
+  width: min(420px, 78vw);
+  aspect-ratio: 1 / 1;
+
+  display: grid;
+  place-items: center;
+}
+
+.qr__img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+
+  /* ✅ ทำให้ดูคมและไม่ชิดขอบ */
+  padding: 8px;
+}
+
+/* ===== Mobile tweaks ===== */
+@media (max-width: 520px) {
+  .content {
+    padding: 14px 10px 26px;
+  }
+
+  .bar {
+    padding: 10px 10px;
+    font-size: 14px;
+  }
+
+  .contact {
+    gap: 8px;
+  }
+
+  /* บนมือถือให้ QR เล็กลงอีกนิด */
+  .qr__wrap {
+    width: min(320px, 88vw);
+  }
+}
+
+/* ===== iPad / tablet tweaks ===== */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .qr__wrap {
+    width: min(380px, 52vw);
+  }
+}

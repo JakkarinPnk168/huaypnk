@@ -116,7 +116,7 @@ export class RandomMin implements OnInit, OnDestroy {
       }),
 
       switchMap(() =>
-        from(this.buildPosterOat1080()).pipe(
+        from(this.buildPosterMin1080()).pipe(
           catchError((err) => {
             console.error('buildPoster error:', err);
             this.debugError = String(err?.message ?? err ?? 'unknown error');
@@ -256,32 +256,32 @@ private makeTwoDigitRow(
   private generateNumbers() {
   const a = this.randInt(0, 9);
 
-  // ✅ ห้าม a=b (กัน 2-2 และกัน focus เบิ้ล)
+  // ✅ ห้าม a=b
   let b = this.randInt(0, 9);
-  while (b === a) {
-    b = this.randInt(0, 9);
-  }
+  while (b === a) b = this.randInt(0, 9);
 
   this.rollText = `${a} - ${b}`;
 
-  // ✅ focus1 เอาเลขตัวหน้า (ตามที่คุณใช้)
+  // focus1 ของ min ยังใช้แบบเดิมได้
   this.focus1 = String(a);
 
-  // (ถ้าอยากกลับมาใช้ focus2 2 หลัก ก็เปิดบรรทัดนี้ได้)
-  // this.focus2 = `${a}${b}`;
+  // ✅ กติกาใหม่: "เลขวิ่งรูด" ห้ามซ้ำกับ "เลข 2 หลัก"
+  // หมายถึงในกริดห้ามมีทั้ง ab และ ba
+  const globalUsed = new Set<string>();
+  globalUsed.add(`${a}${b}`); // ห้ามมี ab
+  globalUsed.add(`${b}${a}`); // ห้ามมี ba (กันกลับหน้า-หลัง)
 
   // ✅ ทำเลข 2 หลัก 8 ตัว: แถวบน = หลักสิบ a, แถวล่าง = หลักสิบ b
-  // และต้องมี "ab" อยู่ในกริดด้วย (เหมือนที่แก้ใน top)
-  const globalUsed = new Set<string>();
-
-  const topRow = this.makeTwoDigitRow(a, 4, b, globalUsed);          // บังคับให้มี ab
-  const bottomRow = this.makeTwoDigitRow(b, 4, undefined, globalUsed); // ไม่บังคับ ba เพราะเรากัน reversed แล้ว
+  // ❌ ห้ามบังคับให้มี ab ในกริดแล้ว (ไม่งั้นจะซ้ำแน่นอน)
+  const topRow = this.makeTwoDigitRow(a, 4, undefined, globalUsed);
+  const bottomRow = this.makeTwoDigitRow(b, 4, undefined, globalUsed);
 
   this.twoDigits = [...topRow, ...bottomRow];
 
-  // (min ของคุณเหมือนไม่ใช้ 3 หลัก) ถ้าไม่ใช้ให้เคลียร์เป็น []
+  // min ไม่ใช้ 3 หลัก
   this.threeDigits = [];
 }
+
 
 
   // ---------- ฟอนต์/การวาด (ปรับให้คล้าย ref) ----------
@@ -309,7 +309,7 @@ private makeTwoDigitRow(
     return minFont;
   }
 
-  private async buildPosterOat1080(): Promise<string> {
+  private async buildPosterMin1080(): Promise<string> {
   const W = 1080;
   const H = 1080;
 
@@ -410,7 +410,7 @@ private makeTwoDigitRow(
     ctx.shadowColor = 'rgba(0,0,0,0.35)';
     ctx.shadowBlur = 190;
 
-    drawOutlined(this.focus1, W * 0.815, H * 0.66, 170, 'focus', '#ffffff', '#000000');
+    drawOutlined(this.focus1, W * 0.815, H * 0.655, 170, 'focus', '#ffffff', '#000000');
     // drawOutlined(this.focus2, W * 0.78, H * 0.66, 190, 'focus', '#ffffff', '#000000');
 
     ctx.restore();

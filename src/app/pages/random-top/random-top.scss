@@ -370,19 +370,20 @@
   }
 }
 
-@media (orientation: portrait) {
-  .action-row{
-    grid-template-columns: 1fr 1fr; /* ✅ portrait ก็ยัง 2 ปุ่มข้างกัน */
+/* ✅ ใช้ 2 ปุ่มข้างกันเฉพาะจอที่กว้างพอเท่านั้น */
+@media (orientation: portrait) and (min-width: 361px) {
+  .action-row {
+    grid-template-columns: 1fr 1fr;
     gap: 12px;
   }
 
-  /* กันข้อความปุ่มล้น */
-  .btn{
+  .btn {
     font-size: 15px;
     padding: 12px 10px;
     white-space: nowrap;
   }
 }
+
 
 
 /* =========================

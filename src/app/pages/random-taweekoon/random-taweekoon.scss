@@ -1,0 +1,169 @@
+/* random-min.scss (BgTaweekoon) */
+
+/* ---------- Page ---------- */
+.page {
+  min-height: 100dvh;
+  padding: clamp(12px, 2.5vw, 22px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(10px, 2.2vw, 16px);
+  background: #f3f4f6;
+}
+
+/* ---------- Shared Width ---------- */
+.poster-img,
+.status,
+.action-group {
+  width: min(92vw, 560px);
+}
+
+/* ---------- Poster ---------- */
+.poster-img {
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.18);
+  cursor: pointer;
+  user-select: none;
+  transition: transform 120ms ease;
+}
+.poster-img:active {
+  transform: scale(0.992);
+}
+
+/* ---------- Status ---------- */
+.status {
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  font-size: clamp(14px, 1.6vw, 16px);
+  line-height: 1.45;
+  color: #111827;
+}
+.status.error {
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  background: #fff5f5;
+  color: #991b1b;
+}
+
+/* ---------- Buttons ---------- */
+.action-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.action-row {
+  display: flex;
+  gap: 10px;
+}
+
+/* ปุ่ม */
+.btn {
+  flex: 1;
+  appearance: none;
+  border: 0;
+  outline: none;
+  border-radius: 14px;
+  padding: 12px 14px;
+
+  font-weight: 800;
+  font-size: clamp(14px, 1.8vw, 16px);
+  letter-spacing: 0.2px;
+
+  cursor: pointer;
+  user-select: none;
+
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+  transition: transform 110ms ease, box-shadow 110ms ease, filter 110ms ease;
+}
+
+.btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  filter: grayscale(0.2);
+  box-shadow: none;
+}
+
+/* สีปุ่ม */
+.btn--reroll {
+  background: #111827;
+  color: #ffffff;
+}
+.btn--download {
+  background: #16a34a;
+  color: #ffffff;
+}
+.btn--back {
+  background: #ffffff;
+  color: #111827;
+  border: 1px solid rgba(17, 24, 39, 0.16);
+  width: 100%;
+}
+
+/* ---------- Phone (ปกติ) ---------- */
+/* 📱 ยังให้ปุ่มอยู่ข้างกัน */
+@media (max-width: 480px) {
+  .poster-img,
+  .status,
+  .action-group {
+    width: 100%;
+    max-width: 96vw;
+  }
+
+  .action-row {
+    flex-direction: row;
+  }
+
+  .btn {
+    font-size: 14px;
+    padding: 12px 10px;
+    white-space: nowrap;
+  }
+}
+
+/* ---------- Very Small Phones ---------- */
+/* 📱⬇️ เล็กกว่าโทรศัพท์ → เรียงลง */
+@media (max-width: 360px) {
+  .action-row {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
+
+/* ---------- Tablets ---------- */
+@media (min-width: 481px) and (max-width: 1024px) {
+  .poster-img,
+  .status,
+  .action-group {
+    width: min(86vw, 640px);
+  }
+
+  .poster-img {
+    border-radius: 18px;
+  }
+
+  .btn {
+    padding: 13px 16px;
+    border-radius: 16px;
+  }
+}
+
+/* ---------- Large Desktop ---------- */
+@media (min-width: 1025px) {
+  .poster-img,
+  .status,
+  .action-group {
+    width: min(42vw, 620px);
+  }
+}

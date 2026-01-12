@@ -237,17 +237,20 @@ private generateNumbers() {
 
   // ✅ ห้าม b ซ้ำกับ a (กัน 2-2 และกัน focus 22)
   let b = this.randInt(0, 9);
-  while (b === a) {
-    b = this.randInt(0, 9);
-  }
+  while (b === a) b = this.randInt(0, 9);
 
   this.rollText = `${a} - ${b}`;
-  this.focus2 = `${a}${b}`;
+  this.focus2 = `${a}${b}`; // ✅ เลขอัด
 
+  // ✅ กันไม่ให้เลข 2 หลักในกริดซ้ำกับเลขอัด (ab) + กันกลับหน้า-หลัง (ba)
   const globalUsed = new Set<string>();
+  globalUsed.add(this.focus2);   // ห้ามมี ab ในกริด
+  globalUsed.add(`${b}${a}`);    // (แนะนำ) ห้ามมี ba ด้วย
 
-  const topRow = this.makeTwoDigitRow(a, 4, b, globalUsed);          // มี ab
-  const bottomRow = this.makeTwoDigitRow(b, 4, undefined, globalUsed); // ไม่บังคับ ba (เพราะคุณกัน reversed แล้ว)
+  // ✅ 2 หลัก 8 ตัว: 4x2
+  // ❌ ห้ามบังคับให้มี ab แล้ว เพราะต้องไม่ซ้ำกับ focus2
+  const topRow = this.makeTwoDigitRow(a, 4, undefined, globalUsed);
+  const bottomRow = this.makeTwoDigitRow(b, 4, undefined, globalUsed);
 
   this.twoDigits = [...topRow, ...bottomRow];
 
@@ -271,7 +274,7 @@ private generateNumbers() {
       title: 0.05,
       number: 0.07,
       three: 0.05,
-      focus: 0.09,
+      focus: 0.05,
     },
 
     strokeMin: 4,

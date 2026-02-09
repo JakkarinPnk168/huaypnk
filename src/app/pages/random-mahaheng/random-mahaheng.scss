@@ -1,0 +1,150 @@
+.page {
+  min-height: 100dvh;
+  padding: clamp(12px, 2.2vw, 18px)
+           clamp(12px, 2.0vw, 14px)
+           clamp(18px, 3vw, 28px);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(10px, 1.8vw, 14px);
+
+  background: #ffffff; /* น้ำเงินเข้มเข้าธีม mahaheng */
+}
+
+/* ===== Poster ===== */
+.poster-img {
+  width: min(92vw, 560px);
+  height: auto;
+
+  /* 👇 สำคัญมาก */
+  max-height: 72dvh;
+
+  object-fit: contain;       /* ❌ ไม่ครอป */
+  object-position: center;
+
+  background: #ffffff;       /* เผื่อมีพื้นที่ว่าง */
+  border-radius: clamp(12px, 2.2vw, 14px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+
+  cursor: pointer;
+  user-select: none;
+  transition: transform 120ms ease;
+}
+
+.poster-img:active {
+  transform: scale(0.99);
+}
+
+/* ===== Status ===== */
+.status {
+  width: min(92vw, 560px);
+  padding: clamp(10px, 1.8vw, 12px) clamp(12px, 2vw, 14px);
+  border-radius: clamp(10px, 2vw, 12px);
+
+  background: #ffffff;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+
+  font-size: clamp(14px, 2.2vw, 15px);
+  font-weight: 700;
+  text-align: center;
+}
+
+.status.error {
+  background: #fff1f2;
+  color: #9f1239;
+}
+
+/* ===== Actions ===== */
+.action-group {
+  width: min(92vw, 560px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8px, 1.6vw, 10px);
+}
+
+.action-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(8px, 1.6vw, 10px);
+}
+
+.btn {
+  border: none;
+  border-radius: clamp(10px, 2vw, 12px);
+  padding: clamp(10px, 2vw, 12px) clamp(12px, 2.2vw, 14px);
+
+  font-size: clamp(14px, 2.2vw, 15px);
+  font-weight: 800;
+
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.14);
+
+  transition: transform 120ms ease, filter 120ms ease, opacity 120ms ease;
+}
+
+.btn:active {
+  transform: scale(0.99);
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* โทนปุ่ม */
+.btn--reroll {
+  background-color: #000e73;
+  color: #ffffff;
+}
+
+/* ปุ่มดาวน์โหลด — น้ำเงินสว่างขึ้น */
+.btn--download {
+  background-color: #1e3aff;
+  color: #ffffff;
+}
+
+/* ปุ่มกลับ — น้ำเงินเข้มเกือบดำ */
+.btn--back {
+  background-color: #020617;
+  color: #ffffff;
+}
+
+/* =========================
+   Responsive Tweaks
+   ========================= */
+
+/* ✅ มือถือจอเตี้ย/แนวนอน: ให้รูปไม่กินพื้นที่เกินจนเลขดูต่ำ + ปุ่มไม่ดันเลย์เอาต์ */
+@media (max-height: 700px) {
+  .poster-img {
+    max-height: 58dvh;
+  }
+}
+
+/* ✅ มือถือจอเล็กมาก: ปรับให้ปุ่มเรียง 1 คอลัมน์เพื่อไม่ให้แคบ */
+@media (max-width: 360px) {
+  .action-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ✅ แท็บเล็ต/เดสก์ท็อป: ให้รูปใหญ่ขึ้นนิดและ spacing ดูโปร */
+@media (min-width: 768px) {
+  .poster-img {
+    width: min(70vw, 620px);
+    max-height: min(74dvh, 620px);
+  }
+}
+@media (max-height: 700px) {
+  .poster-img {
+    max-height: 60dvh;
+  }
+}
+
+@media (min-width: 768px) {
+  .poster-img {
+    width: min(70vw, 620px);
+    max-height: 78dvh;
+  }
+}
+

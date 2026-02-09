@@ -50,6 +50,9 @@ export class RandomTaweekoon implements OnInit, OnDestroy {
   private sub?: Subscription;
   private readonly isBrowser: boolean;
 
+  // ✅ กันโหลดซ้ำทุกครั้ง/ทุกบ้าน (สำคัญบน iOS)
+  private static dsnReady?: Promise<void>;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -62,24 +65,82 @@ export class RandomTaweekoon implements OnInit, OnDestroy {
     this.isBrowser = isPlatformBrowser(platformId);
   }
 
-  private async preloadHouseFont(): Promise<void> {
+  // ✅ โหลด DSN-YaoWaRat.ttf ให้ “ชัวร์” ก่อนวาด (แก้เลข/ตัวหนังสือตกบน iPhone)
+  private async ensureTaweekoonFontReady(): Promise<void> {
     if (!this.isBrowser) return;
 
-    const fonts: any = (document as any).fonts;
-    if (!fonts?.load) return;
+    if (RandomTaweekoon.dsnReady) {
+      await RandomTaweekoon.dsnReady;
+      return;
+    }
 
-    const weights = [700, 800, 900]; // ตามที่คุณใช้จริง
-    const probeSize = 32;
+    RandomTaweekoon.dsnReady = (async () => {
+      try {
+        const fonts: any = (document as any).fonts;
+        if (!fonts?.add || !fonts?.load) return;
 
-    try {
-      await Promise.race([
-        Promise.all(weights.map((w) => fonts.load(`${w} ${probeSize}px ${this.FONT.familyMain}`))),
-        new Promise<void>((r) => setTimeout(r, 2500)),
-      ]);
+        // โหลดจากไฟล์จริงใน assets
+        const face = new FontFace(
+          'DSN YaoWaRat',
+          'url(/assets/fonts/DSN-YaoWaRat.ttf) format("truetype")',
+          { style: 'normal', weight: '400' }
+        );
 
-      await Promise.race([fonts.ready, new Promise<void>((r) => setTimeout(r, 2500))]);
-    } catch {}
+        const loaded = await face.load();
+        fonts.add(loaded);
+
+        await Promise.race([
+          Promise.all([
+            fonts.load(`400 32px "DSN YaoWaRat"`),
+          ]),
+          new Promise<void>((r) => setTimeout(r, 2500)),
+        ]);
+
+        await Promise.race([
+          fonts.ready,
+          new Promise<void>((r) => setTimeout(r, 2500)),
+        ]);
+      } catch {
+        // ปล่อย fallback ได้ แต่ไม่ให้พัง
+      }
+    })();
+
+    await RandomTaweekoon.dsnReady;
   }
+
+  // (ตัวเดิมคุณ) preload ผ่าน document.fonts.load — เก็บไว้ได้ แต่ให้เรียก “หลัง” ensureTaweekoonFontReady
+  private async preloadHouseFont(): Promise<void> {
+  if (!this.isBrowser) return;
+
+  const fonts: any = (document as any).fonts;
+  if (!fonts?.load) return;
+
+  const weights = [500, 700, 800, 900]; // เผื่อ date/title/number
+  const probeSize = 32;
+
+  // ✅ ดึง “ชื่อฟอนต์จริงตัวแรก” จาก familyMain เช่น '"DSN YaoWaRat", sans-serif' -> 'DSN YaoWaRat'
+  const firstFamily = (this.FONT.familyMain || '')
+    .split(',')[0]                 // เอาก่อน comma
+    .trim()
+    .replace(/^['"]|['"]$/g, '');  // ตัด ' " ครอบออก
+
+  if (!firstFamily) return;
+
+  try {
+    // ✅ โหลดแบบชัวร์: ใช้ชื่อฟอนต์จริงเท่านั้น (ไม่ใส่ fallback)
+    await Promise.race([
+      Promise.all(weights.map((w) => fonts.load(`${w} ${probeSize}px "${firstFamily}"`))),
+      new Promise<void>((r) => setTimeout(r, 2500)),
+    ]);
+
+
+    await Promise.race([
+      fonts.ready,
+      new Promise<void>((r) => setTimeout(r, 2500)),
+    ]);
+  } catch {}
+}
+
 
   async ngOnInit(): Promise<void> {
     const d = new Date();
@@ -87,10 +148,10 @@ export class RandomTaweekoon implements OnInit, OnDestroy {
     const mm = String(d.getMonth() + 1).padStart(2, '0');
     const yy = String(d.getFullYear() + 543).slice(-2);
     this.dateText = `${dd}-${mm}-${yy}`;
-    await this.preloadHouseFont();
 
     if (!this.isBrowser) return;
 
+    // ✅ รอ Angular stable ก่อน (ลดโอกาส race)
     await new Promise<void>((resolve) => {
       this.appRef.isStable
         .pipe(
@@ -99,6 +160,12 @@ export class RandomTaweekoon implements OnInit, OnDestroy {
         )
         .subscribe(() => resolve());
     });
+
+    // ✅ โหลดฟอนต์ DSN ให้ชัวร์ก่อน subscribe/ก่อนวาด
+    await this.ensureTaweekoonFontReady();
+
+    // (ถ้าอยากคงไว้ก็ได้) preload เพิ่มอีกชั้นตาม familyMain
+    await this.preloadHouseFont();
 
     this.sub = combineLatest([this.route.paramMap, this.route.queryParamMap])
       .pipe(
@@ -141,7 +208,6 @@ export class RandomTaweekoon implements OnInit, OnDestroy {
           if (newUrl) {
             const old = this.generatedUrl;
             this.generatedUrl = newUrl;
-
             this.poster.revokeObjectUrl(old);
           }
 
@@ -286,7 +352,7 @@ export class RandomTaweekoon implements OnInit, OnDestroy {
   // ---------- ฟอนต์/การวาด (ปรับให้คล้าย ref) ----------
   private readonly FONT = {
     familyMain: '"DSN YaoWaRat", sans-serif',
-    weight: { title: 200, number: 500, date: 400, focus: 500 },
+    weight: { title: 400, number: 400, date: 400, focus: 400 },
     strokeRatio: { title: 0, number: 0.08, focus: 0, date: 0 },
     strokeMin: 5,
   };
@@ -301,18 +367,25 @@ export class RandomTaweekoon implements OnInit, OnDestroy {
   ): number {
     let size = maxFont;
     while (size > minFont) {
-      ctx.font = `${weight} ${size}px ${this.FONT.familyMain}`;
+      ctx.font = `${weight} ${size}px "DSN YaoWaRat"`;
       if (ctx.measureText(text).width <= maxWidth) return size;
       size -= 2;
     }
     return minFont;
   }
 
+  private async nextFrame(times = 2): Promise<void> {
+  for (let i = 0; i < times; i++) {
+    await new Promise<void>((r) => requestAnimationFrame(() => r()));
+  }
+}
+
+
   private async buildPosterTaweekoon1040(): Promise<string> {
     const W = 1040;
     const H = 1040;
 
-    await this.preloadHouseFont();
+    await this.ensureTaweekoonFontReady();
 
     const canvas = this.poster.createCanvas(W, H);
     const ctx = this.poster.get2d(canvas);
@@ -321,9 +394,11 @@ export class RandomTaweekoon implements OnInit, OnDestroy {
     const bg = await this.poster.loadImage(this.bgUrl);
     ctx.drawImage(bg, 0, 0, W, H);
 
+    await this.nextFrame(2);
+
     // Fonts
     await this.poster.waitFontsReadyWithTimeout(1500);
-
+    
     // helper outline
     const drawOutlined = (
       text: string,
@@ -346,7 +421,7 @@ export class RandomTaweekoon implements OnInit, OnDestroy {
           ? this.FONT.weight.focus
           : this.FONT.weight.number;
 
-      ctx.font = `${weight} ${fontPx}px ${this.FONT.familyMain}`;
+      ctx.font = `${weight} ${fontPx}px "DSN YaoWaRat"`;
       ctx.textAlign = align;
       ctx.textBaseline = 'middle';
 
@@ -383,7 +458,7 @@ export class RandomTaweekoon implements OnInit, OnDestroy {
     // ====== 2) rollText: วงรีกลาง ======
     {
       const x = W * 0.505;
-      const y = H * 0.41;
+      const y = H * 0.405;
       const maxW = W * 0.34;
       const fs = this.fitFontSize(ctx, this.rollText, maxW, 220, 64, 900);
       drawOutlined(this.rollText, x, y, fs, 'number', '#ffffff', '#000000');
@@ -420,14 +495,14 @@ export class RandomTaweekoon implements OnInit, OnDestroy {
     // ====== focus2: วงกลมขวา (เลขอัด 2 หลัก) ======
     {
       const x = W * 0.81;
-      const y = H * 0.72;
+      const y = H * 0.7155;
 
       ctx.save();
       ctx.shadowColor = 'rgba(0,0,0,0.35)';
       ctx.shadowBlur = 120;
 
       const maxW = W * 0.22;
-      const fs = this.fitFontSize(ctx, this.focus2, maxW, 400, 90, 800);
+      const fs = this.fitFontSize(ctx, this.focus2, maxW, 390, 90, 800);
 
       drawOutlined(this.focus2, x, y, fs, 'focus', '#f9f355', '#000000');
 
@@ -437,10 +512,10 @@ export class RandomTaweekoon implements OnInit, OnDestroy {
     // ====== 5) DATE: ======
     {
       const x = W * 0.83;
-      const y = H * 0.06;
+      const y = H * 0.055;
 
-      const maxW = W * 0.23;
-      const fs = this.fitFontSize(ctx, this.dateText, maxW, 200, 22, 700);
+      const maxW = W * 0.4;
+      const fs = this.fitFontSize(ctx, this.dateText, maxW, 120, 22, 700);
       drawOutlined(this.dateText, x, y, fs, 'date', '#571709', '#ffffff');
     }
 
